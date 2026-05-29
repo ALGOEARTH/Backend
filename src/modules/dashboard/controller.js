@@ -121,7 +121,6 @@ const DashboardService = {
   async getMarketingData() {
     const campaigns = db.find('mkt_campaigns', {});
     const leads = db.find('crm_leads', {});
-    const analytics = db.find('mkt_analytics', {});
     
     const channelStats = {};
     campaigns.forEach(c => {

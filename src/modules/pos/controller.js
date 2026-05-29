@@ -1,6 +1,6 @@
 'use strict';
 const POSService = require('./service');
-const { POSProduct, POSCategory, POSSale, POSCustomer, POSSupplier, POSExpense, POSPurchase, POSTable, POSOrder, POSSettings } = require('./model');
+const { POSProduct, POSSale, POSCustomer, POSSupplier } = require('./model');
 const db = require('../../config/jsonDb');
 
 const ctrl = {

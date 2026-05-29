@@ -57,7 +57,7 @@ const createCollectionRoutes = (base, collection) => {
   });
 };
 
-Object.entries(SALTEDHASH_MODULES).forEach(([category, collections]) => {
+Object.entries(SALTEDHASH_MODULES).forEach(([_category, collections]) => {
   collections.forEach(col => createCollectionRoutes(col, col));
 });
 

@@ -51,7 +51,6 @@ const runDailyReport = async () => {
 
     const Booking = require('../models/Booking');
     const Invoice = require('../models/Invoice');
-    const Room    = require('../models/Room');
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -161,7 +160,7 @@ const runRoomStatusSync = async () => {
     logger.info('[Automation] runRoomStatusSync: syncing room statuses...');
 
     const Booking = require('../models/Booking');
-    const Room    = require('../models/Room');
+    const Room = require('../models/Room');
 
     const now = new Date();
     let updated = 0;

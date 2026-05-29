@@ -1,7 +1,5 @@
 'use strict';
 const db = require('../config/jsonDb');
-const fs = require('fs');
-const path = require('path');
 
 const SYNC_COLLECTIONS = {
   users: { platforms: ['core', 'saltedhash', 'sme-invoice', 'sme-sync', 'nextdoor'], syncFields: ['email', 'name', 'phone'] },

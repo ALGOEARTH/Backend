@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
 
 const registry = {
   platforms: {},
@@ -125,7 +124,7 @@ router.get('/resolve', (req, res) => {
 });
 
 router.post('/webhook', (req, res) => {
-  const { source, event, payload } = req.body;
+  const { source, event } = req.body;
   res.json({ success: true, message: `${source} webhook ${event} received`, id: Date.now().toString(36) });
 });
 

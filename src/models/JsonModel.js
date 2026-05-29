@@ -22,13 +22,6 @@ const db = require('../config/jsonDb');
 // ─── Global model registry (collection name → Model) ─────────────────────────
 const _registry = Object.create(null);
 
-// ─── Default-exclude field sets per collection ────────────────────────────────
-// These mirror Mongoose's `select: false` fields.
-const SELECT_FALSE_FIELDS = {
-  users: ['password', 'refreshToken', 'passwordResetToken', 'passwordResetExpires',
-          'otpCode', 'otpExpires', 'otpAttempts'],
-};
-
 // ─── Document proxy ───────────────────────────────────────────────────────────
 
 /**
@@ -466,7 +459,7 @@ function createJsonModel(collectionName, modelName, opts = {}) {
 
   ModelConstructor.distinct = function(field, query = {}) {
     const docs = db.find(col, query);
-    const vals = [...new Set(docs.map(d => db.getPath(d, field)).filter(v => v != null))];
+    const vals = [...new Set(docs.map(d => db.getPath(d, field)).filter(v => v !== null && v !== undefined))];
     return Promise.resolve(vals);
   };
 

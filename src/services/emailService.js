@@ -175,7 +175,7 @@ const sendBookingConfirmation = async (email, booking, guest, room) => {
   const nights = booking?.checkInDate && booking?.checkOutDate
     ? Math.ceil((new Date(booking.checkOutDate) - new Date(booking.checkInDate)) / 86400000)
     : '—';
-  const total = booking?.totalAmount != null
+  const total = booking?.totalAmount !== null && booking?.totalAmount !== undefined
     ? `₹${Number(booking.totalAmount).toLocaleString('en-IN')}`
     : 'N/A';
   const subject = `Booking Confirmed — Room ${roomNum}`;

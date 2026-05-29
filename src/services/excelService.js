@@ -11,7 +11,6 @@ const ExcelJS = require('exceljs');
 // ─── Design helpers ───────────────────────────────────────────────────────────
 
 const PRIMARY_COLOR = '1E3A5F';
-const ACCENT_COLOR  = '2E86AB';
 const LIGHT_BG      = 'F0F4F8';
 
 function applyHeaderStyle(row) {
@@ -158,8 +157,8 @@ const exportBookings = async (bookings) => {
       nights,
       status:        b.status        || '',
       source:        b.source        || '',
-      totalAmount:   b.totalAmount   != null ? Number(b.totalAmount)   : 0,
-      paidAmount:    b.paidAmount    != null ? Number(b.paidAmount)    : 0,
+      totalAmount:   b.totalAmount !== null && b.totalAmount !== undefined ? Number(b.totalAmount) : 0,
+      paidAmount:    b.paidAmount !== null && b.paidAmount !== undefined ? Number(b.paidAmount) : 0,
       paymentStatus: b.paymentStatus || '',
       createdAt:     b.createdAt     ? new Date(b.createdAt).toLocaleString('en-IN') : '',
     });
@@ -214,9 +213,9 @@ const exportGuests = async (guests) => {
       phone:         g.phone         || '',
       nationality:   g.nationality   || 'Indian',
       vipStatus:     g.vipStatus     || 'regular',
-      totalBookings: g.totalBookings != null ? Number(g.totalBookings) : 0,
-      totalSpent:    g.totalSpent    != null ? Number(g.totalSpent)    : 0,
-      loyaltyPoints: g.loyaltyPoints != null ? Number(g.loyaltyPoints) : 0,
+      totalBookings: g.totalBookings !== null && g.totalBookings !== undefined ? Number(g.totalBookings) : 0,
+      totalSpent:    g.totalSpent !== null && g.totalSpent !== undefined ? Number(g.totalSpent) : 0,
+      loyaltyPoints: g.loyaltyPoints !== null && g.loyaltyPoints !== undefined ? Number(g.loyaltyPoints) : 0,
       lastVisit:     g.lastVisit     ? new Date(g.lastVisit).toLocaleDateString('en-IN') : '',
       createdAt:     g.createdAt     ? new Date(g.createdAt).toLocaleString('en-IN')     : '',
     });
