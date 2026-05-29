@@ -22,13 +22,6 @@ const db = require('../config/jsonDb');
 // ─── Global model registry (collection name → Model) ─────────────────────────
 const _registry = Object.create(null);
 
-// ─── Default-exclude field sets per collection ────────────────────────────────
-// These mirror Mongoose's `select: false` fields.
-const SELECT_FALSE_FIELDS = {
-  users: ['password', 'refreshToken', 'passwordResetToken', 'passwordResetExpires',
-          'otpCode', 'otpExpires', 'otpAttempts'],
-};
-
 // ─── Document proxy ───────────────────────────────────────────────────────────
 
 /**
@@ -126,7 +119,7 @@ class Query {
   }
 
   async exec() {
-    let result = await this._exec({ sort: this._sort, skip: this._skip, limit: this._limit });
+    const result = await this._exec({ sort: this._sort, skip: this._skip, limit: this._limit });
 
     if (!result) return result;
 
@@ -329,7 +322,7 @@ function createJsonModel(collectionName, modelName, opts = {}) {
 
   ModelConstructor.find = function(query = {}, projection) {
     const execFn = (opts2) => {
-      let docs = db.find(col, query, {
+      const docs = db.find(col, query, {
         sort:       opts2.sort,
         skip:       opts2.skip  || 0,
         limit:      opts2.limit || 0,
@@ -466,7 +459,7 @@ function createJsonModel(collectionName, modelName, opts = {}) {
 
   ModelConstructor.distinct = function(field, query = {}) {
     const docs = db.find(col, query);
-    const vals = [...new Set(docs.map(d => db.getPath(d, field)).filter(v => v != null))];
+    const vals = [...new Set(docs.map(d => db.getPath(d, field)).filter(v => v !== null && v !== undefined))];
     return Promise.resolve(vals);
   };
 

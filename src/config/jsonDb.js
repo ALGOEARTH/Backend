@@ -91,11 +91,11 @@ if (_backupTimer.unref) _backupTimer.unref(); // don't keep process alive
 
 /** Read a value via dot-notation path. */
 function getPath(obj, dotPath) {
-  if (!dotPath.includes('.')) return obj == null ? undefined : obj[dotPath];
+  if (!dotPath.includes('.')) return (obj === null || obj === undefined) ? undefined : obj[dotPath];
   const parts = dotPath.split('.');
   let cur = obj;
   for (const p of parts) {
-    if (cur == null) return undefined;
+    if (cur === null || cur === undefined) return undefined;
     cur = cur[p];
   }
   return cur;
@@ -111,7 +111,7 @@ function setPath(obj, dotPath, value) {
   for (let i = 0; i < parts.length - 1; i++) {
     const part = parts[i];
     if (DANGEROUS_KEYS.has(part)) return; // refuse to write into prototype chain
-    if (cur[part] == null || typeof cur[part] !== 'object') {
+    if ((cur[part] === null || cur[part] === undefined) || typeof cur[part] !== 'object') {
       cur[part] = {};
     }
     cur = cur[part];
@@ -140,7 +140,7 @@ function evalOperator(docVal, op, operand) {
     case '$exists':
       return operand ? docVal !== undefined : docVal === undefined;
     case '$regex': {
-      if (docVal == null) return false;
+      if (docVal === null || docVal === undefined) return false;
       const src   = typeof operand === 'string' ? operand : String(operand);
       const flags = '';
       try { return new RegExp(src, flags).test(String(docVal)); } catch (_) { return false; }
@@ -229,7 +229,7 @@ function applyUpdate(doc, update) {
           const parts = p.split('.');
           let cur = out;
           for (let i = 0; i < parts.length - 1; i++) {
-            if (cur[parts[i]] == null) { cur = null; break; }
+            if (cur[parts[i]] === null || cur[parts[i]] === undefined) { cur = null; break; }
             cur = cur[parts[i]];
           }
           if (cur) delete cur[parts[parts.length - 1]];
@@ -293,7 +293,7 @@ function applyUpdate(doc, update) {
           let cur = out;
           let valid = true;
           for (let i = 0; i < parts.length - 1; i++) {
-            if (cur[parts[i]] == null) { valid = false; break; }
+            if (cur[parts[i]] === null || cur[parts[i]] === undefined) { valid = false; break; }
             cur = cur[parts[i]];
           }
           if (valid) delete cur[parts[parts.length - 1]];
@@ -331,8 +331,8 @@ function sortDocs(docs, sortSpec) {
       const av = getPath(a, field);
       const bv = getPath(b, field);
       if (av === bv) continue;
-      if (av == null) return dir === 1 ? 1 : -1;
-      if (bv == null) return dir === 1 ? -1 : 1;
+      if (av === null || av === undefined) return dir === 1 ? 1 : -1;
+      if (bv === null || bv === undefined) return dir === 1 ? -1 : 1;
       const cmp = av < bv ? -1 : 1;
       return dir === 1 ? cmp : -cmp;
     }
@@ -505,10 +505,10 @@ function aggregate(collection, pipeline) {
                 acc[outField] += 1;
                 break;
               case '$min':
-                if (val != null && val < acc[outField]) acc[outField] = val;
+                if (val !== null && val !== undefined && val < acc[outField]) acc[outField] = val;
                 break;
               case '$max':
-                if (val != null && val > acc[outField]) acc[outField] = val;
+                if (val !== null && val !== undefined && val > acc[outField]) acc[outField] = val;
                 break;
               case '$push':
                 acc[outField].push(val);

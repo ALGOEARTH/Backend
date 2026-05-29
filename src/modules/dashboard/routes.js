@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../../middlewares/authMiddleware');
 const ctrl = require('./controller');
 
 router.get('/aggregated', ctrl.getAggregatedDashboard);

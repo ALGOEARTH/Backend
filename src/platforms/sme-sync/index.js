@@ -63,7 +63,7 @@ router.get('/inventory/restock', (req, res) => {
 
 router.get('/feedback', (req, res) => {
   try {
-    let feedback = db.find('sync_feedback', {});
+    const feedback = db.find('sync_feedback', {});
     const { page = 1, limit = 20 } = req.query;
     const start = (page - 1) * limit;
     feedback.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -84,7 +84,7 @@ router.post('/feedback', (req, res) => {
 
 router.get('/notifications', (req, res) => {
   try {
-    let notifications = db.find('sync_notifications', {});
+    const notifications = db.find('sync_notifications', {});
     notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.json({ success: true, data: notifications, unread: notifications.filter(n => !n.seen).length });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }

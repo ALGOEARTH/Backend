@@ -36,8 +36,7 @@ const seedData = async () => {
   if (!db.find('agency_projects', {}).length) {
     const clients = db.find('agency_clients', {});
     db.insert('agency_projects', [
-      { _id: generateId(), title: 'Website Redesign', clientId: clients[0]?._id || '', type: 'web', description: 'Complete website overhaul', status: 'active', budget: 150000, cost: 75000, milestone 
-s: [{ _id: generateId(), title: 'Design', status: 'completed' }, { _id: generateId(), title: 'Development', status: 'in_progress' }], createdAt: now(), updatedAt: now() },
+      { _id: generateId(), title: 'Website Redesign', clientId: clients[0]?._id || '', type: 'web', description: 'Complete website overhaul', status: 'active', budget: 150000, cost: 75000, milestones: [{ _id: generateId(), title: 'Design', status: 'completed' }, { _id: generateId(), title: 'Development', status: 'in_progress' }], createdAt: now(), updatedAt: now() },
       { _id: generateId(), title: 'SEO Campaign', clientId: clients[1]?._id || '', type: 'marketing', description: '6 months SEO', status: 'planning', budget: 75000, cost: 0, createdAt: now(), updatedAt: now() },
     ]);
     console.log('✓ Agency Projects seeded');

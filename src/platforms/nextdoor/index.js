@@ -11,15 +11,6 @@ const LOCALITIES = {
   Chennai: ['Adyar', 'Velachery', 'T. Nagar', 'OMR'],
 };
 
-const haversineDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371;
-  const toRad = d => d * Math.PI / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-};
-
 router.get('/health', (req, res) => {
   res.json({ success: true, platform: 'Nextdoor/SNMA', version: '1.0.0', cities: Object.keys(LOCALITIES) });
 });
@@ -34,7 +25,7 @@ router.get('/localities/:city', (req, res) => {
 
 router.get('/feed', (req, res) => {
   try {
-    const { locality, radius } = req.query;
+    const { locality } = req.query;
     let posts = db.find('nd_posts', {});
     if (locality) posts = posts.filter(p => p.locality === locality);
     posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
