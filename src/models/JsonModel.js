@@ -126,7 +126,7 @@ class Query {
   }
 
   async exec() {
-    let result = await this._exec({ sort: this._sort, skip: this._skip, limit: this._limit });
+    const result = await this._exec({ sort: this._sort, skip: this._skip, limit: this._limit });
 
     if (!result) return result;
 
@@ -329,7 +329,7 @@ function createJsonModel(collectionName, modelName, opts = {}) {
 
   ModelConstructor.find = function(query = {}, projection) {
     const execFn = (opts2) => {
-      let docs = db.find(col, query, {
+      const docs = db.find(col, query, {
         sort:       opts2.sort,
         skip:       opts2.skip  || 0,
         limit:      opts2.limit || 0,
